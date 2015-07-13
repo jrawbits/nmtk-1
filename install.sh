@@ -216,7 +216,7 @@ if [[ $WINDOWS == 0 ]]; then
 fi
 popd &> /dev/null
 if [[ $WINDOWS == 0 ]]; then
-  sudo a2dissite 000-default.conf &> /dev/null
+  # sudo a2dissite 000-default.conf &> /dev/null
   sudo /etc/init.d/apache2 restart
   sudo /etc/init.d/celeryd-$CELERYD_NAME start
 else
