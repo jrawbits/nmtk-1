@@ -64,15 +64,20 @@ if [ -f ./.nmtk_config ]; then
 fi
 if [[ $WINDOWS == 0 ]] ; then
   if [ ${#NMTK_NAME} == 0 ]; then
-    NMTK_NAME=$(hostname -s)
-  fi
-  if [ ${#URL} == 0 ]; then
-    echo -n "Enter URL for this tool server (Enter for http://$(hostname --fqdn)/): "
-    read URL
-    if [ ${#URL} == 0 ]; then
-      URL="http://$(hostname --fqdn)/"
+    echo -n "Enter configuration tag (NMTK_NAME) for Apache and Celery (Enter for [nmtk]): "
+    read NMTK_NAME
+    if [ ${#NMTK_NAME} == 0 ]; then
+	NMTK_NAME=nmtk
     fi
   fi
+  if [ ${#NMTK_HOST} == 0 ]; then
+    echo -n "Enter domain or IP for this tool server (Enter for [$(hostname --fqdn)]): "
+    read NMTK_HOST
+    if [ ${#NMTK_HOST} == 0 ]; then
+      NMTK_HOST="$(hostname --fqdn)"
+    fi
+  fi
+  URL="http://${NMTK_HOST}/"
 else
   echo "Windows uses http://127.0.0.1:8000"
   URL="http://127.0.0.1:8000"
@@ -105,11 +110,11 @@ if [ ${#PGUSER} == 0 ]; then
   fi
 fi
 
-if [ ${#PGPASSWORD} == 0 ]; then
-  read -s -p "PostgreSQL Password for $PGUSER (will not echo): " PGPASSWORD
-  echo ""
-fi
-export FIRSTNAME LASTNAME PASSWORD EMAIL NMTK_USERNAME NMTK_NAME URL PGUSER PGPASSWORD
+# if [ ${#PGPASSWORD} == 0 ]; then
+#   read -s -p "PostgreSQL Password for $PGUSER (will not echo): " PGPASSWORD
+#   echo ""
+# fi
+export FIRSTNAME LASTNAME PASSWORD EMAIL NMTK_USERNAME NMTK_NAME NMTK_HOST URL PGUSER
 if [ ! -f .nmtk_config ]; then
    cat <<-EOT > .nmtk_config
 	# These settings were built from the first run of the install.sh script
@@ -121,6 +126,7 @@ if [ ! -f .nmtk_config ]; then
 	FIRSTNAME=$FIRSTNAME
 	LASTNAME=$LASTNAME
 	NMTK_NAME=${NMTK_NAME}
+	NMTK_HOST=${NMTK_HOST}
 	URL=${URL}
 	PGUSER=${PGUSER}
 EOT
@@ -138,7 +144,7 @@ fi
 if [ ! -f "/etc/apache2/sites-available/${NMTK_NAME}.conf" ]; then
   sed -e 's|NMTK_INSTALL_PATH|'${NMTK_INSTALL_PATH}'|g' \
     -e 's|EMAIL|'${EMAIL}'|g' \
-    -e 's|HOSTNAME|'${HOSTNAME}'|g' \
+    -e 's|HOSTNAME|'${NMTK_HOST}'|g' \
     conf/apache.conf > /etc/apache2/sites-available/${NMTK_NAME}.conf
   a2ensite ${NMTK_NAME}.conf
 fi
