@@ -28,6 +28,12 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
 # OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # Script to install/reset the NMTK environment for testing.
+
+# JR Note:  I tweaked the install script to allow more nuanced control of the
+# nmtk installation.  In particular, I created NMTK_NAME to hold the short
+# name used to identify the Apache and Celery configs, and NMTK_HOST which
+# holds the ServerName (or IP) and from which the URL is constructed.
+
 cat <<-EOT
 	NOTICE: This script will cause the removal of all data, accounts, etc. 
 	        stored on this server.  For a new installation, it is acceptable
