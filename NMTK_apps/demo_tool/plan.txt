@@ -1,0 +1,12 @@
+The demo tool should illustrate the following:
+
+Minimal tool structure:
+	Configuration file
+	Basic documentation
+	Sample data
+	A grab-bag of configuration elements
+	Perform a numeric calculation based on user choices
+	Return two result files
+
+Comment amply to explain what is going on at every step, including parameter documentation, helper functions and classes, etc.
+

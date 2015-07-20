@@ -1,0 +1,234 @@
+
+{
+  "info":{
+    "text":
+
+"",
+
+    "version":"0.3",
+    "name":"Pedestrian Intersection Volume Model (San Francisco)"
+  },
+  "sample":{
+             "files": [
+                 {
+                   "namespace":"data",
+                   "checksum": "",
+                   "uri": "/static/demo_tool/demo_tool.json",
+                   "content-type":"application/json"
+                 }
+            ],
+            "config": {
+			    "data": {
+			        "traffic_signal": {
+			            "type": "property",
+			            "value": "traffic_signal"
+			        },
+			        "high_activity_zone": {
+			            "type": "property",
+			            "value": "high_activity_zone"
+			        },
+			        "max_slope": {
+			            "type": "property",
+			            "value": "max_slope"
+			        },
+			        "quarter_mile_households": {
+			            "type": "property",
+			            "value": "quarter_mile_households"
+			        },
+			        "quarter_mile_employment": {
+			            "type": "property",
+			            "value": "quarter_mile_employment"
+			        },
+			        "quarter_mile_campus": {
+			            "type": "property",
+			            "value": "quarter_mile_campus"
+			        }
+			    },
+			    "results": {
+			        "result": {
+			            "type": "string",
+			            "value": "AnnualPeds"
+			        }
+			    },
+			    "coefficients": {
+			        "quarter_mile_households_coeff": {
+			            "type": "number",
+			            "value": 1.81
+			        },
+			        "constant": {
+			            "type": "number",
+			            "value": 12.9
+			        },
+			        "quarter_mile_campus_coeff": {
+			            "type": "number",
+			            "value": 0.635
+			        },
+			        "max_slope_coeff": {
+			            "type": "number",
+			            "value": -9.4
+			        },
+			        "traffic_signal_coeff": {
+			            "type": "number",
+			            "value": 1.16
+			        },
+			        "quarter_mile_employment_coeff": {
+			            "type": "number",
+			            "value": 2.43
+			        },
+			        "high_activity_zone_coeff": {
+			            "type": "number",
+			            "value": 1.27
+			        }
+			    }
+			},
+            "description":"Sample Job using San Francisco Data"
+  },
+  "documentation":{
+    "links":[
+      {
+        "url":"",
+        "title":"Demo Tool documentation"
+      }
+    ]
+  },
+  "output":[
+    {
+      "description":"You may override the default field name in which results from this tool are reported by entering a different name here.  The name you enter may be adjusted so it is not the same as any fields already in your input data.",
+      "elements":[
+        {
+          "description":"Field name that will contain Annual pedestrian count estimate",
+          "default":"AnnualPeds",
+          "required":true,
+          "label":"Result Field",
+          "type":"string",
+          "name":"result"
+        }
+      ],
+      "type":"ConfigurationPage",
+      "name":"results",
+      "namespace":"results",
+      "label":"Result Variable"
+    }
+  ],
+  "input":[
+    {
+      "description":"Required model inputs. Each entry here must identify the necessary field in the file you wish to analyze.  Note that this tool only allows spatial files with a spatial type of POINT or POLYGON.",
+      "elements":[
+        {
+          "required":true,
+          "type":"number",
+          "default":0.057,
+          "name":"quarter_mile_households",
+          "description":"Total households within 1/4 mile (10,000s)"
+        },
+        {
+          "required":true,
+          "type":"number",
+          "default":0.2274,
+          "name":"quarter_mile_employment",
+          "description":"Total employment within 1/4 mile (100,000s)"
+        },
+        {
+          "required":true,
+          "type":"number",
+          "default":0,
+          "name":"high_activity_zone",
+          "description":"Intersection is in a high-activity zone (== allows on-street parking)"
+        },
+        {
+          "required":true,
+          "type":"number",
+          "default":0.02,
+          "name":"max_slope",
+          "description":"Maximum slope on any intersection approach leg (100s)"
+        },
+        {
+          "required":true,
+          "type":"number",
+          "default":0,
+          "name":"quarter_mile_campus",
+          "description":"Intersection is within 1/4 mile of a university campus"
+        },
+        {
+          "required":true,
+          "type":"number",
+          "default":1,
+          "name":"traffic_signal",
+          "description":"Intersection is controlled by a traffic signal"
+        }
+      ],
+      "type":"File",
+      "name":"data",
+      "namespace":"data",
+      "primary": true,
+      "label":"Input File Fields",
+      "spatial_types": ["POLYGON","POINT"]
+    },
+    {
+      "description":"These are the estimated coefficients for the San Francisco Pedestrian Intersection Volume model. They are presented for reference only and should not be changed without a full model re-estimation.",
+      "elements":[
+        {
+          "description":"Regression constant",
+          "default":12.9,
+          "required":true,
+          "label":"Constant",
+          "type":"number",
+          "name":"constant"
+        },
+        {
+          "description":"Coefficient for Total households within 1/4 mile (10,000s)",
+          "default":1.81,
+          "required":true,
+          "label":"Households within 1/4 mile",
+          "type":"number",
+          "name":"quarter_mile_households_coeff"
+        },
+        {
+          "description":"Coefficient for Total employment within 1/4 mile (100,000s)",
+          "default":2.43,
+          "required":true,
+          "label":"Employment within 1/4 mile",
+          "type":"number",
+          "name":"quarter_mile_employment_coeff"
+        },
+        {
+          "description":"Coefficient for Intersection is in a high-activity zone",
+          "default":1.27,
+          "required":true,
+          "label":"Intersection in High-Activity Zone",
+          "type":"number",
+          "name":"high_activity_zone_coeff"
+        },
+        {
+          "description":"Coefficient for Maximum slope on any intersection approach leg (100s)",
+          "default":-9.4,
+          "required":true,
+          "label":"Maximum Slope on Any Approach",
+          "type":"number",
+          "name":"max_slope_coeff"
+        },
+        {
+          "description":"Coefficient for Intersection is within 1/4 mile of a university campus",
+          "default":0.635,
+          "required":true,
+          "label":"University within 1/4 mile",
+          "type":"number",
+          "name":"quarter_mile_campus_coeff"
+        },
+        {
+          "description":"Coefficient for Intersection is controlled by a traffic signal",
+          "default":1.16,
+          "required":true,
+          "label":"Signal-Controlled Intersection",
+          "type":"number",
+          "name":"traffic_signal_coeff"
+        }
+      ],
+      "type":"ConfigurationPage",
+      "name":"coefficients",
+      "namespace":"coefficients",
+      "label":"Coefficients",
+      "expanded":false
+    }
+  ]
+}
