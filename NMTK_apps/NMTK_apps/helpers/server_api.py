@@ -82,13 +82,13 @@ class NMTKClient(object):
                       files={}, failure=False, payload={}):
         '''
         There are two methods the analysis tool uses to communicate with the
-        server - one of which is analyses/results (a URL).  This is used
+        server - one of which is tools/results (a URL).  This is used
         to send final results back to the server.
         
         Note: files should be a dictionary of two-tuples, containing a file name and 
               a file-like object.  the key of the dictionary is the name of the POST 
               field used to send the file, and at least one of those keys should match
-              the 'result_field' value.
+              the 'result_file' value.
         '''
         logger.debug('Sending status update back with payload of %s', payload)
         url="%s/%s" % (self.url, "tools/result",)
@@ -106,7 +106,7 @@ class NMTKClient(object):
     def updateStatus(self, status):
         '''
         There are two methods the analysis tool uses to communicate with the
-        server - one of which is analyses/update (a URL).  This is used
+        server - one of which is tools/update (a URL).  This is used
         to send status updates back to the server.
         '''
         url="%s/%s" % (self.url, "tools/update",)
